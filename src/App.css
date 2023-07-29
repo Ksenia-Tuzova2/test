@@ -1,11 +1,16 @@
+
 .App {
-  padding: 30px;
+
+  padding: 0px;
   display: flex;
+  flex-direction: column;
 }
 
-.App > div {
-  margin-right: 50px;
+.App__containerFoeViewPart{
+  padding: 30px;
 }
+
+
 
 ​.error {
   border: red 1px solid;

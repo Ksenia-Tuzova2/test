@@ -1,9 +1,13 @@
+import { AddBox } from '@mui/icons-material'
+import { IconButton } from '@mui/material'
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
 import { ChangeEvent, KeyboardEvent, useState } from 'react'
 
 
 type PropsType = {
-    addItem: (title: string, ) => void
-   }
+    addItem: (title: string,) => void
+}
 
 export function AddItemForm(props: PropsType) {
 
@@ -21,7 +25,6 @@ export function AddItemForm(props: PropsType) {
         } else {
             setErr('error')
         }
-
     }
 
     function onKeyDownHandler(key: string) {
@@ -33,13 +36,21 @@ export function AddItemForm(props: PropsType) {
     }
 
     return <div>
-        <input
+        <TextField
+            label={"Title"}
+            helperText={err}
+            variant='outlined'
             value={inputValue}
-            onChange={(e) => onChangeHandler(e)}
+            onChange={onChangeHandler}
             onKeyDown={(e) => onKeyDownHandler(e.key)}
-            className={`${err ? 'error' : ''}`}
+            error={!!err}
         />
-        <button onClick={() => onClickAddItemHandler()}>+</button>
-        {err && <span className='error-message'>{err}</span>}
+
+
+        <IconButton
+            color='primary' onClick={onClickAddItemHandler}>
+            <AddBox />
+        </IconButton>
+
     </div>
 }

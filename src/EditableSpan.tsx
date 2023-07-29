@@ -1,35 +1,45 @@
+import TextField from '@mui/material/TextField'
 import React, { ChangeEvent, useState } from 'react'
 
 
 type PropsType = {
     title: string
-    onChange:(newTitle:string)=>void
-   }
+    onChange: (newTitle: string) => void
+}
 
 export function EditableSpan(props: PropsType) {
 
-let [editMode, setEditMode]=useState(false)
-let [title, setTitle] = useState(props.title)
+    //сделать эдитбл спан как и аэайтемформ с проверкой на пустую строку
+    let [err, setErr] = useState<string | null>(null)
+    let [editMode, setEditMode] = useState(false)
+    let [title, setTitle] = useState(props.title)
 
-function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
-    setTitle(e.currentTarget.value)
-}
+    function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
+        setTitle(e.currentTarget.value)
 
-function activateEditMode(){
-    setEditMode(true)
-    props.onChange(title)
-}
+    }
 
-function activateViewMode(){
-    setEditMode(false)
-}
+    function activateEditMode() {
+        setEditMode(true)
 
-    return editMode?
-        <input
-         value={title}
-        autoFocus
-        onChange={(e)=>onChangeHandler(e)}
-         onBlur={()=>activateViewMode()}/>:
-        <span onDoubleClick={()=>activateEditMode()}>{props.title}</span>
-    
+    }
+
+    function activateViewMode() {
+        setEditMode(false)
+
+        props.onChange(title)
+    }
+
+    return editMode ?
+        <TextField
+            label={"Title"}
+            helperText={err}
+            error={!!err}
+            variant='outlined'
+            value={title}
+            autoFocus
+            onChange={onChangeHandler}
+            onBlur={() => activateViewMode()} /> :
+        <span onDoubleClick={() => activateEditMode()}>{props.title}</span>
+
 }

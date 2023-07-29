@@ -1,8 +1,17 @@
-import React, { useState } from 'react';
-
-import { TaskType, Todolist } from './Todolist';
+import { useState } from 'react';
+import './null.css'
 import { v1 } from 'uuid';
 import { AddItemForm } from './AddItemForm';
+import { TaskType, Todolist } from './Todolist';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import { Grid } from '@mui/material';
 
 
 export type FilterType = 'all' | 'active' | 'completed'
@@ -17,19 +26,6 @@ export type TasksStateType = {
 
 function App() {
 
-
-    // let [todolists, setTodolists] = useState<Array<TodolistsType>>([
-    //     { id: v1(), title: 'What to learn', filter: 'all' },
-    //     { id: v1(), title: 'What to buy', filter: 'all' },
-    // ]
-    // )
-
-
-    // let [tasks, setTasks] = useState([
-    //     { id: v1(), title: "HTML&CSS", isDone: true },
-    //     { id: v1(), title: "JS", isDone: true },
-    //     { id: v1(), title: "ReactJS", isDone: false }
-    // ])
 
     let todolistID1 = v1()
     let todolistID2 = v1()
@@ -93,6 +89,17 @@ function App() {
         }
     }
 
+    function changeTasksTitle(title: string, id: string, todolistId: string) {
+
+        let todoTasks = tasks[todolistId]
+        let findedTask = todoTasks.find((t) => t.id === id)
+
+        if (findedTask) {
+            findedTask.title = title
+            setTasks({ ...tasks })
+        }
+    }
+
 
     function changeFilter(value: FilterType, todolistId: string) {
         //находим нужный лист 
@@ -130,39 +137,80 @@ function App() {
 
     }
 
+    function changeTodoTitle(title: string, todolistId: string) {
+        let neededTodo = todolists.find((t) => t.id === todolistId)
+        if (neededTodo) {
+            neededTodo.title = title
+            setTodolists([...todolists])
+        }
+
+    }
+
     return (
         <div className="App">
-            <AddItemForm
-                addItem={addTodo} />
-            {
-                todolists.map((t) => {
-                    //здесь будем хранить отфильтрованные приколы
-                    let tasksForTodo = tasks[t.id]
+            <Box sx={{ flexGrow: 1 }}>
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{ mr: 2 }}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                            News
+                        </Typography>
+                        <Button color="inherit">Login</Button>
+                    </Toolbar>
+                </AppBar>
+            </Box>
+            <div className="App__containerFoeViewPart">
+                <Container fixed>
+                    <Grid container style={{padding:'30px'}}>
+                        <AddItemForm
+                            addItem={addTodo} />
+                    </Grid>
+                    <Grid container>
+                        {
+                            todolists.map((t) => {
+                                //здесь будем хранить отфильтрованные приколы
+                                let tasksForTodo = tasks[t.id]
 
-                    if (t.filter === 'active') {
-                        tasksForTodo = tasksForTodo.filter((t) => t.isDone === false)
-                    }
+                                if (t.filter === 'active') {
+                                    tasksForTodo = tasksForTodo.filter((t) => t.isDone === false)
+                                }
 
-                    if (t.filter === 'completed') {
-                        tasksForTodo = tasksForTodo.filter((t) => t.isDone === true)
-                    }
+                                if (t.filter === 'completed') {
+                                    tasksForTodo = tasksForTodo.filter((t) => t.isDone === true)
+                                }
 
 
 
-                    return (
-                        <Todolist
-                            removeTodoList={removeTodoList}
-                            title={t.title}
-                            filter={t.filter}
-                            tasks={tasksForTodo}
-                            removeTask={removeTask}
-                            changeFilter={changeFilter}
-                            addTask={addTask}
-                            changeTaskStatus={changeTaskStatus}
-                            todoListId={t.id} />
-                    )
-                })
-            }
+                                return (
+                                    <div key={v1()} className="">
+                                        <Todolist
+                                            changeTodoTitle={changeTodoTitle}
+                                            changeTasksTitle={changeTasksTitle}
+                                            removeTodoList={removeTodoList}
+                                            title={t.title}
+                                            filter={t.filter}
+                                            tasks={tasksForTodo}
+                                            removeTask={removeTask}
+                                            changeFilter={changeFilter}
+                                            addTask={addTask}
+                                            changeTaskStatus={changeTaskStatus}
+                                            todoListId={t.id} />
+                                    </div>
+                                )
+                            })
+                        }
+                    </Grid>
+                </Container>
+
+            </div>
 
         </div>
     );
