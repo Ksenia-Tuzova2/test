@@ -1,8 +1,8 @@
-import { AddBox } from '@mui/icons-material'
-import { IconButton } from '@mui/material'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import { ChangeEvent, KeyboardEvent, useState } from 'react'
+import React from "react";
+import { AddBox } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import { ChangeEvent, useState } from "react";
 
 
 type PropsType = {
@@ -11,26 +11,26 @@ type PropsType = {
 
 export function AddItemForm(props: PropsType) {
 
-    let [inputValue, setInputValue] = useState('')
-    let [err, setErr] = useState<string | null>(null)
+    const [inputValue, setInputValue] = useState("");
+    const [err, setErr] = useState<string | null>(null);
 
     function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
-        setInputValue(e.currentTarget.value)
+        setInputValue(e.currentTarget.value);
     }
 
     function onClickAddItemHandler() {
-        if (inputValue.trim() !== '') {
-            props.addItem(inputValue.trim())
-            setInputValue('')
+        if (inputValue.trim() !== "") {
+            props.addItem(inputValue.trim());
+            setInputValue("");
         } else {
-            setErr('error')
+            setErr("error");
         }
     }
 
     function onKeyDownHandler(key: string) {
-        setErr(null)
-        if (key === 'Enter') {
-            onClickAddItemHandler()
+        setErr(null);
+        if (key === "Enter") {
+            onClickAddItemHandler();
         }
 
     }
@@ -52,5 +52,5 @@ export function AddItemForm(props: PropsType) {
             <AddBox />
         </IconButton>
 
-    </div>
+    </div>;
 }

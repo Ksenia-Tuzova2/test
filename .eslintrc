@@ -1,0 +1,25 @@
+{
+  "extends": ["react-app", "react-app/jest"],
+
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-console": "warn",
+    "no-alert": "warn",
+    "quotes": ["warn", "double"],
+    "prefer-const": "warn",
+    "max-len": ["error", { "code": 80 }],
+    "comma-dangle": ["error", "always-multiline"],
+    "semi": ["warn", "always"],
+    "import/order": [
+      "warn",
+      {
+        "groups": ["builtin", "external", "parent", "sibling", "index"],
+        "newlines-between": "always-and-inside-groups"
+      }
+    ]
+  }
+}
+
+// добавить в package-json в скрипты 
+//  "lint":"eslint .",
+//     "lint:fix":"npm run lint -- --fix"

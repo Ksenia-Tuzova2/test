@@ -1,5 +1,5 @@
-import TextField from '@mui/material/TextField'
-import React, { ChangeEvent, useState } from 'react'
+import TextField from "@mui/material/TextField";
+import React, { ChangeEvent, useState } from "react";
 
 
 type PropsType = {
@@ -10,24 +10,24 @@ type PropsType = {
 export function EditableSpan(props: PropsType) {
 
     //сделать эдитбл спан как и аэайтемформ с проверкой на пустую строку
-    let [err, setErr] = useState<string | null>(null)
-    let [editMode, setEditMode] = useState(false)
-    let [title, setTitle] = useState(props.title)
+    const [err, setErr] = useState<string | null>(null);
+    const [editMode, setEditMode] = useState(false);
+    const [title, setTitle] = useState(props.title);
 
     function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
-        setTitle(e.currentTarget.value)
+        setTitle(e.currentTarget.value);
 
     }
 
     function activateEditMode() {
-        setEditMode(true)
+        setEditMode(true);
 
     }
 
     function activateViewMode() {
-        setEditMode(false)
+        setEditMode(false);
 
-        props.onChange(title)
+        props.onChange(title);
     }
 
     return editMode ?
@@ -40,6 +40,6 @@ export function EditableSpan(props: PropsType) {
             autoFocus
             onChange={onChangeHandler}
             onBlur={() => activateViewMode()} /> :
-        <span onDoubleClick={() => activateEditMode()}>{props.title}</span>
+        <span onDoubleClick={() => activateEditMode()}>{props.title}</span>;
 
 }

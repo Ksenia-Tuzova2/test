@@ -13,18 +13,18 @@ interface ActionType  {
 // согласно прописанному type в этом action (инструкции) я поменяю state
 export const userReducer = (state: StateType, action: ActionType) => {
     switch (action.type) {
-        case 'INCREMENT-AGE':
-            state.age = state.age + 1
-            return state
-        case 'INCREMENT-CHILDREN-COUNT':
-            state.childrenCount = state.childrenCount + 1
-            return state
-            case  'CHANGE-NAME':
-                state.name=action.newName
-                return state
+        case "INCREMENT-AGE":
+            state.age = state.age + 1;
+            return state;
+        case "INCREMENT-CHILDREN-COUNT":
+            state.childrenCount = state.childrenCount + 1;
+            return state;
+            case  "CHANGE-NAME":
+                state.name=action.newName;
+                return state;
         default:
-            throw new Error('I don\'t understand this type')
+            throw new Error("I don't understand this type");
     }
-}
+};
 
 
