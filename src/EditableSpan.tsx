@@ -7,7 +7,7 @@ type PropsType = {
     onChange: (newTitle: string) => void
 }
 
-export function EditableSpan(props: PropsType) {
+export const EditableSpan=React.memo((props: PropsType)=> {
 
     //сделать эдитбл спан как и аэайтемформ с проверкой на пустую строку
     const [err, setErr] = useState<string | null>(null);
@@ -42,4 +42,5 @@ export function EditableSpan(props: PropsType) {
             onBlur={() => activateViewMode()} /> :
         <span onDoubleClick={() => activateEditMode()}>{props.title}</span>;
 
-}
+},
+);

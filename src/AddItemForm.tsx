@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import { AddBox } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -9,8 +9,9 @@ type PropsType = {
     addItem: (title: string,) => void
 }
 
-export function AddItemForm(props: PropsType) {
+export const AddItemForm=React.memo((props: PropsType)=> {
 
+    console.log("AddItem called");
     const [inputValue, setInputValue] = useState("");
     const [err, setErr] = useState<string | null>(null);
 
@@ -18,22 +19,26 @@ export function AddItemForm(props: PropsType) {
         setInputValue(e.currentTarget.value);
     }
 
-    function onClickAddItemHandler() {
+    const onClickAddItemHandler=useCallback(()=> {
+        if(err !== null) {
+            setErr("error");
+        }
         if (inputValue.trim() !== "") {
             props.addItem(inputValue.trim());
             setInputValue("");
-        } else {
-            setErr("error");
-        }
-    }
+        } 
+    },[err, inputValue, props]);
 
     function onKeyDownHandler(key: string) {
-        setErr(null);
+        if(err !== null) {
+            setErr("error");
+        }
         if (key === "Enter") {
             onClickAddItemHandler();
         }
 
     }
+    const addBox = useMemo(()=><AddBox />,[]);
 
     return <div>
         <TextField
@@ -47,10 +52,13 @@ export function AddItemForm(props: PropsType) {
         />
 
 
-        <IconButton
+        {
+        useMemo(()=><IconButton
             color='primary' onClick={onClickAddItemHandler}>
-            <AddBox />
-        </IconButton>
+            {addBox}
+        </IconButton>,[addBox, onClickAddItemHandler])
+        }
 
     </div>;
-}
+},
+);

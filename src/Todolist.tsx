@@ -1,9 +1,11 @@
-import { ChangeEvent} from "react";
+import { ChangeEvent, useCallback} from "react";
 import { v1 } from "uuid";
 import { Delete } from "@mui/icons-material";
 import { Button, Grid, IconButton, Paper } from "@mui/material";
 
 import Checkbox from "@mui/material/Checkbox";
+
+import React from "react";
 
 import { FilterType } from "./App";
 import { AddItemForm } from "./AddItemForm";
@@ -29,18 +31,20 @@ type PropsType = {
   changeTaskStatus: (isDone: boolean, id: string, todolistId: string) => void;
 };
 
-export function Todolist(props: PropsType) {
-  function AddTaskHandler(title: string) {
-    props.addTask(title.trim(), props.todoListId);
-  }
+export const Todolist=React.memo((props: PropsType)=> {
+const  {todoListId, addTask} = props
 
-  function changeFilterHandler(filter: FilterType) {
+  const AddTaskHandler=useCallback((title: string)=>{
+    addTask(title.trim(), todoListId);
+  },[todoListId, addTask]);
+
+  const changeFilterHandler=useCallback((filter: FilterType)=> {
     props.changeFilter(filter, props.todoListId);
-  }
+  },[]);
 
-  function changeTodoTitleHandler(title: string) {
+  const changeTodoTitleHandler=useCallback((title: string)=> {
     props.changeTodoTitle(title, props.todoListId);
-  }
+  },[]);
 
   return (
     <Grid container spacing={3}>
@@ -109,4 +113,5 @@ export function Todolist(props: PropsType) {
       </Paper>
     </Grid>
   );
-}
+},
+);

@@ -63,10 +63,12 @@ export const changeTaskStatusAC = (
   } as const;
 };
 
+const InitialState:TasksStateType={};
+
 // меня вызовут и дадут мне стейт (почти всегда объект)
 // и инструкцию (action, тоже объект)
 // согласно прописанному type в этом action (инструкции) я поменяю state
-export const tasksReducer = (state: TasksStateType,
+export const tasksReducer = (state:TasksStateType=InitialState,
    action: ActionType): TasksStateType => {
   switch (action.type) {
     case "REMOVE-TODOLIST":
@@ -121,31 +123,7 @@ export const tasksReducer = (state: TasksStateType,
       } else return { ...state };
 
     default:
-      return state;
+      return state ;
   }
 };
 
-test("property with todolistId should be deleted", () => {
-  const startState: TasksStateType = {
-      "todolistId1": [
-          {id: "1", title: "CSS", isDone: false},
-          {id: "2", title: "JS", isDone: true},
-          {id: "3", title: "React", isDone: false},
-      ],
-      "todolistId2": [
-          {id: "1", title: "bread", isDone: false},
-          {id: "2", title: "milk", isDone: true},
-          {id: "3", title: "tea", isDone: false},
-      ],
-  };
-
-  const action = RemoveTodolistAC("todolistId2");
-
-  const endState = tasksReducer(startState, action);
-
-
-  const keys = Object.keys(endState);
-
-  expect(keys.length).toBe(1);
-  expect(endState["todolistId2"]).not.toBeDefined();
-});

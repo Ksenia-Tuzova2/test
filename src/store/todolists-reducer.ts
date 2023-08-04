@@ -8,10 +8,10 @@ type ActionType =
   | ReturnType<typeof ChangeTodoFilterAC>
   | ReturnType<typeof AddTodoListAC>;
 
+
 export const RemoveTodolistAC = (id: string) => {
   return { type: "REMOVE-TODOLIST", id: id } as const;
-};
-
+}; 
 
 
 export const ChangeTodoTitleAC = (title: string, id: string) => {
@@ -30,19 +30,20 @@ export const ChangeTodoFilterAC = (filter: FilterType, id: string) => {
   } as const;
 };
 
+const InitialState:Array<TodolistsType>=[];
 // меня вызовут и дадут мне стейт (почти всегда объект)
 // и инструкцию (action, тоже объект)
 // согласно прописанному type в этом action (инструкции) я поменяю state
 export const todoListReducer = (
-  state: Array<TodolistsType>,
+  state: Array<TodolistsType>=InitialState,
   action: ActionType,
-) => {
+) :Array<TodolistsType>=> {
   switch (action.type) {
     case "REMOVE-TODOLIST":
       const filtredTodos = state.filter((t) => t.id !== action.id);
       return filtredTodos;
     case "ADD-TODOLIST":
-      const newTodo = {
+      const newTodo:TodolistsType = {
         id: action.todolistId,
         title: action.title,
         filter: "all",
@@ -64,6 +65,6 @@ export const todoListReducer = (
       } else return [...state];
 
     default:
-      throw new Error("I don't understand this type");
+      return state;
   }
 };
